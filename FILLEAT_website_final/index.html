@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FILLEAT — Duri Minggir, Nafsu Makan Hadir!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    --bg:#FAF6EC;
+    --bg-raised:#F1EADA;
+    --ink:#1B1A15;
+    --ink-soft:#5B5646;
+    --teal:#0F3B3A;
+    --teal-soft:#4E7A73;
+    --coral:#E15A2D;
+    --coral-deep:#B8431D;
+    --seafoam:#D8E6DE;
+    --line:rgba(15,59,58,0.18);
+    --card:#FFFDF7;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#101613;
+      --bg-raised:#171F1B;
+      --ink:#F1EEE4;
+      --ink-soft:#B7B2A2;
+      --teal:#8FCFC2;
+      --teal-soft:#6FA79A;
+      --coral:#FF8156;
+      --coral-deep:#FF9E76;
+      --seafoam:#1C2B25;
+      --line:rgba(143,207,194,0.22);
+      --card:#171F1B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101613;
+    --bg-raised:#171F1B;
+    --ink:#F1EEE4;
+    --ink-soft:#B7B2A2;
+    --teal:#8FCFC2;
+    --teal-soft:#6FA79A;
+    --coral:#FF8156;
+    --coral-deep:#FF9E76;
+    --seafoam:#1C2B25;
+    --line:rgba(143,207,194,0.22);
+    --card:#171F1B;
+  }
+  html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px));}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Work Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:"Fraunces",Georgia,serif;font-optical-sizing:auto;letter-spacing:-0.01em;margin:0;}
+  a{color:inherit;}
+  img,svg{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* fishbone divider — recurring motif: the "duri" stepping aside */
+  .bone{width:100%;height:22px;margin:0 auto;}
+  .bone path{stroke:var(--line);stroke-width:1.5;fill:none;}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:40;
+    padding-top:env(safe-area-inset-top,0px);
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1120px;margin:0 auto;}
+  .logo{font-family:"Fraunces",serif;font-weight:700;font-size:1.4rem;color:var(--teal);display:flex;align-items:center;gap:8px;}
+  .logo .dot{color:var(--coral);}
+  nav.links{display:flex;gap:28px;font-size:0.95rem;font-weight:500;}
+  nav.links a{opacity:0.82;text-decoration:none;}
+  nav.links a:hover{opacity:1;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:100px;font-weight:600;font-size:0.95rem;
+    text-decoration:none;border:1px solid transparent;cursor:pointer;
+    font-family:"Work Sans",sans-serif;
+  }
+  .btn-coral{background:var(--coral);color:#FFF7EF;}
+  .btn-coral:hover{background:var(--coral-deep);}
+  .btn-line{border-color:var(--teal);color:var(--teal);background:transparent;}
+  .btn-line:hover{background:var(--teal);color:var(--bg);}
+  .menu-toggle{display:none;background:none;border:none;color:var(--ink);font-size:1.6rem;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--coral);outline-offset:2px;}
+
+  /* hero */
+  .hero{padding:72px 0 40px;position:relative;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;}
+  .eyebrow{color:var(--coral-deep);font-weight:600;font-size:0.95rem;margin-bottom:14px;}
+  .hero h1{font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.05;font-weight:600;color:var(--teal);}
+  .hero h1 em{font-style:italic;color:var(--coral);}
+  .hero p.lede{margin-top:20px;font-size:1.15rem;line-height:1.6;color:var(--ink-soft);max-width:46ch;}
+  .cta-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
+
+  .fillet-art{width:100%;aspect-ratio:1/1;position:relative;}
+  .fillet-art svg{width:100%;height:100%;}
+
+  /* stat strip */
+  .stat-strip{display:flex;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:56px;}
+  .stat{flex:1;padding:22px 24px;border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:"Fraunces",serif;font-size:1.9rem;color:var(--teal);font-weight:600;}
+  .stat .lbl{font-size:0.88rem;color:var(--ink-soft);margin-top:2px;}
+
+  section{padding:76px 0;}
+  .kicker{font-size:0.98rem;color:var(--coral-deep);font-weight:600;margin-bottom:10px;}
+  .sec-head{max-width:640px;}
+  .sec-head h2{font-size:clamp(1.8rem,3.4vw,2.5rem);color:var(--teal);font-weight:600;line-height:1.15;}
+  .sec-head p{margin-top:14px;color:var(--ink-soft);font-size:1.05rem;line-height:1.6;}
+
+  /* kenapa fillet — asymmetric feature strip, not cards */
+  .feature-list{margin-top:44px;border-top:1px solid var(--line);}
+  .feature{
+    display:grid;grid-template-columns:64px 1fr;gap:24px;
+    padding:28px 0;border-bottom:1px solid var(--line);
+  }
+  .feature .icon{color:var(--coral);}
+  .feature h3{font-size:1.2rem;color:var(--teal);font-weight:600;margin-bottom:6px;}
+  .feature p{color:var(--ink-soft);line-height:1.55;margin:0;max-width:56ch;}
+
+  /* menu / catalog — chalkboard menu style */
+  .menu-board{
+    background:var(--teal);color:#FBF6E9;
+    border-radius:22px;padding:44px clamp(20px,4vw,56px);margin-top:44px;
+    position:relative;overflow:hidden;
+  }
+  .menu-board::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 85% -10%, rgba(255,255,255,0.08), transparent 55%);
+  }
+  .menu-board h3{font-family:"Fraunces",serif;font-size:1.5rem;margin-bottom:6px;color:#FBF6E9;}
+  .menu-board .sub{color:#CFE3DC;font-size:0.95rem;margin-bottom:28px;}
+  .menu-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:16px 0;border-bottom:1px dashed rgba(251,246,233,0.28);
+  }
+  .menu-row:last-child{border-bottom:none;}
+  .menu-row .name{font-weight:600;font-size:1.08rem;}
+  .menu-row .desc{color:#CFE3DC;font-size:0.9rem;margin-top:3px;font-weight:400;}
+  .menu-row .price{font-family:"Fraunces",serif;font-weight:600;color:#FFB08A;white-space:nowrap;}
+
+  /* langkah pesan — genuine sequence, numbered */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px;}
+  .step{padding:28px 22px;background:var(--card);border:1px solid var(--line);border-radius:18px;}
+  .step .n{font-family:"Fraunces",serif;font-size:2.4rem;color:var(--seafoam);font-weight:700;line-height:1;}
+  .step h3{margin-top:10px;font-size:1.1rem;color:var(--teal);font-weight:600;}
+  .step p{margin-top:8px;color:var(--ink-soft);font-size:0.96rem;line-height:1.5;}
+
+  /* konten & promo split */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-top:8px;}
+  .promo-list{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .promo-list li{
+    display:flex;gap:12px;align-items:flex-start;
+    padding:16px 18px;background:var(--bg-raised);border-radius:14px;font-size:0.98rem;
+  }
+  .promo-list li strong{color:var(--teal);}
+  .content-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+  .tag{
+    padding:8px 14px;border:1px solid var(--line);border-radius:100px;font-size:0.86rem;color:var(--ink-soft);
+  }
+
+  /* final CTA */
+  .cta-band{
+    background:var(--coral);color:#FFF3EA;border-radius:26px;
+    padding:56px clamp(24px,5vw,64px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;
+  }
+  .cta-band h2{color:#FFF3EA;font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:600;}
+  .cta-band p{margin-top:10px;color:#FFE3D3;max-width:44ch;}
+  .cta-band .btn-line{border-color:#FFF3EA;color:#FFF3EA;}
+  .cta-band .btn-line:hover{background:#FFF3EA;color:var(--coral-deep);}
+
+  footer{padding:48px 0 40px;border-top:1px solid var(--line);}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;font-size:0.92rem;color:var(--ink-soft);}
+  .foot-grid .logo{margin-bottom:6px;}
+
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .menu-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .fillet-art{max-width:320px;margin:0 auto;}
+    .stat-strip{flex-wrap:wrap;}
+    .stat{flex:1 1 50%;border-right:1px solid var(--line);}
+    .stat:nth-child(2n){border-right:none;}
+    .steps{grid-template-columns:1fr;}
+    .split{grid-template-columns:1fr;gap:36px;}
+    .feature{grid-template-columns:44px 1fr;}
+  }
+
+  /* product gallery */
+  .product-gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:34px;
+  }
+  .product-photo{
+    overflow:hidden;
+    border-radius:18px;
+    background:var(--card);
+    border:1px solid var(--line);
+  }
+  .product-photo img{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    transition:transform .25s ease;
+  }
+  .product-photo:hover img{transform:scale(1.025);}
+  @media (max-width:860px){
+    .product-gallery{grid-template-columns:1fr;}
+  }
+
+  .product-hero-image{border-radius:24px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:0 18px 45px rgba(15,59,58,.12);}
+  .product-hero-image img{width:100%;height:100%;object-fit:cover;aspect-ratio:1/1;}
+  .product-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px;}
+  .product-card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;}
+  .product-card img{width:100%;aspect-ratio:1.25/1;object-fit:cover;background:#f8f5ed;}
+  .product-info{padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:end;}
+  .product-info h3{font-size:1.08rem;color:var(--teal);margin:0 0 4px;}
+  .product-info p{margin:0;color:var(--ink-soft);font-size:.82rem;line-height:1.35;}
+  .product-info strong{font-family:"Fraunces",serif;color:var(--coral-deep);white-space:nowrap;}
+  @media (max-width:860px){.product-gallery{grid-template-columns:1fr 1fr;}}
+  @media (max-width:560px){.product-gallery{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">FILLEAT<span class="dot">.</span></div>
+    <nav class="links">
+      <a href="#produk">Produk</a>
+      <a href="#kenapa">Kenapa Fillet</a>
+      <a href="#menu">Menu &amp; Harga</a>
+      <a href="#pesan">Cara Pesan</a>
+    </nav>
+    <a class="btn btn-coral" href="#pesan">Pesan Sekarang</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Ikan fillet vakum, siap masak</div>
+          <h1>Duri minggir,<br><em>nafsu makan</em> hadir.</h1>
+          <p class="lede">FILLEAT membersihkan dan memotong ikan jadi fillet, jadi kamu tinggal masak — tanpa repot, tanpa duri, tanpa drama di dapur kos.</p>
+          <div class="cta-row">
+            <a class="btn btn-coral" href="#menu">Lihat Pilihan Ikan</a>
+            <a class="btn btn-line" href="#pesan">Cara Pesan</a>
+          </div>
+        </div>
+        <div class="fillet-art product-hero-image" aria-label="Koleksi produk FILLEAT">
+            <img src="images/collection.jpg" alt="Koleksi produk FILLEAT premium vacuum sealed">
+          </div>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat"><div class="num">0</div><div class="lbl">duri tersisa</div></div>
+        <div class="stat"><div class="num">100%</div><div class="lbl">kemasan vakum higienis</div></div>
+        <div class="stat"><div class="num">&lt;10 mnt</div><div class="lbl">siap dimasak</div></div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="bone" viewBox="0 0 1120 22" preserveAspectRatio="none"><path d="M0,11 L1120,11 M60,11 L48,3 M60,11 L48,19 M180,11 L168,3 M180,11 L168,19 M300,11 L288,3 M300,11 L288,19 M420,11 L408,3 M420,11 L408,19 M540,11 L528,3 M540,11 L528,19 M660,11 L648,3 M660,11 L648,19 M780,11 L768,3 M780,11 L768,19 M900,11 L888,3 M900,11 L888,19 M1020,11 L1008,3 M1020,11 L1008,19"/></svg>
+
+  <section id="produk">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Produk</div>
+        <h2>Ikan biasa, tapi kerjaan repotnya sudah selesai.</h2>
+        <p>Setiap FILLEAT sudah dibersihkan dan dipotong jadi fillet, dikemas vakum supaya kesegarannya terjaga. Tinggal buka, olah jadi ikan goreng, fish and chips, steak ikan, atau rice bowl.</p>
+      </div>
+
+
+
+      <div class="product-gallery" aria-label="Koleksi produk FILLEAT">
+        <article class="product-card">
+          <img src="images/tuna.png" alt="FILLEAT Tuna Cube Sashimi Grade">
+          <div class="product-info"><div><h3>Tuna Cube</h3><p>Premium vacuum sealed · 200 g</p></div><strong>Rp35.000</strong></div>
+        </article>
+        <article class="product-card">
+          <img src="images/patin.png" alt="FILLEAT Patin Catfish Fillet">
+          <div class="product-info"><div><h3>Patin Fillet</h3><p>Vacuum sealed · 400 g</p></div><strong>Rp20.000</strong></div>
+        </article>
+        <article class="product-card">
+          <img src="images/tilapia.png" alt="FILLEAT Tilapia Fillet">
+          <div class="product-info"><div><h3>Tilapia Fillet</h3><p>Vacuum sealed · 400 g</p></div><strong>Rp22.000</strong></div>
+        </article>
+        <article class="product-card">
+          <img src="images/ikan-mas.png" alt="FILLEAT Common Carp Fillet">
+          <div class="product-info"><div><h3>Ikan Mas Fillet</h3><p>Vacuum sealed · 400 g</p></div><strong>Rp23.000</strong></div>
+        </article>
+        <article class="product-card">
+          <img src="images/salmon.png" alt="FILLEAT Wild Atlantic Salmon Fillet">
+          <div class="product-info"><div><h3>Salmon Fillet</h3><p>Premium vacuum sealed · 400 g</p></div><strong>Rp48.000</strong></div>
+        </article>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature">
+          <div class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0Z" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="12" r="1.4" fill="currentColor"/></svg></div>
+          <div><h3>Bebas duri, bebas bersihin</h3><p>Proses fillet menghilangkan tahap paling malas dari masak ikan: membersihkan sisik dan mencabuti duri.</p></div>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><rect x="5" y="4" width="14" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 9h14M9 4v17" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div><h3>Kemasan vakum higienis</h3><p>Menjaga kesegaran lebih lama dan aman disimpan di kulkas atau freezer kos.</p></div>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></div>
+          <div><h3>Pilihan jenis ikan</h3><p>Pilihan produk meliputi tuna cube, patin, tilapia, ikan mas, dan salmon dengan kemasan vakum sesuai ukuran produk.</p></div>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 17V7a2 2 0 0 1 2-2h6l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div><h3>Harga ramah kantong anak kos</h3><p>Dipatok terjangkau supaya sesuai daya beli mahasiswa, pekerja muda, dan keluarga muda.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="bone" viewBox="0 0 1120 22" preserveAspectRatio="none"><path d="M0,11 L1120,11 M60,11 L48,3 M60,11 L48,19 M180,11 L168,3 M180,11 L168,19 M300,11 L288,3 M300,11 L288,19 M420,11 L408,3 M420,11 L408,19 M540,11 L528,3 M540,11 L528,19 M660,11 L648,3 M660,11 L648,19 M780,11 L768,3 M780,11 L768,19 M900,11 L888,3 M900,11 L888,19 M1020,11 L1008,3 M1020,11 L1008,19"/></svg>
+
+  <section id="menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Menu &amp; Harga</div>
+        <h2>Pilih fillet, sesuaikan sama menu malam ini.</h2>
+      </div>
+
+      <div class="menu-board">
+        <h3>Menu FILLEAT</h3>
+        <div class="sub">Harga sementara untuk katalog website — ukuran mengikuti kemasan pada visual produk.</div>
+        <div class="menu-row"><div><div class="name">Tuna Cube</div><div class="desc">Premium vacuum sealed · 200 g</div></div><div class="price">Rp35.000</div></div>
+        <div class="menu-row"><div><div class="name">Patin Fillet</div><div class="desc">Vacuum sealed · 400 g</div></div><div class="price">Rp20.000</div></div>
+        <div class="menu-row"><div><div class="name">Tilapia Fillet</div><div class="desc">Vacuum sealed · 400 g</div></div><div class="price">Rp22.000</div></div>
+        <div class="menu-row"><div><div class="name">Ikan Mas Fillet</div><div class="desc">Vacuum sealed · 400 g</div></div><div class="price">Rp23.000</div></div>
+        <div class="menu-row"><div><div class="name">Salmon Fillet</div><div class="desc">Premium vacuum sealed · 400 g</div></div><div class="price">Rp48.000</div></div>
+      </div>      </div>
+    </div>
+  </section>
+
+  <section id="pesan">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="kicker">Cara Pesan</div>
+        <h2>Tiga langkah dari website ke wajan.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><h3>Pilih fillet</h3><p>Buka katalog di website, cek jenis ikan, harga, dan info gizinya.</p></div>
+        <div class="step"><div class="n">02</div><h3>Checkout</h3><p>Masukkan alamat kos atau rumah, pilih metode bayar, konfirmasi pesanan.</p></div>
+        <div class="step"><div class="n">03</div><h3>Antar &amp; masak</h3><p>Fillet vakum sampai di depan pintu, tinggal olah jadi menu favoritmu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="bone" viewBox="0 0 1120 22" preserveAspectRatio="none"><path d="M0,11 L1120,11 M60,11 L48,3 M60,11 L48,19 M180,11 L168,3 M180,11 L168,19 M300,11 L288,3 M300,11 L288,19 M420,11 L408,3 M420,11 L408,19 M540,11 L528,3 M540,11 L528,19 M660,11 L648,3 M660,11 L648,19 M780,11 L768,3 M780,11 L768,19 M900,11 L888,3 M900,11 L888,19 M1020,11 L1008,3 M1020,11 L1008,19"/></svg>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <div class="kicker">Konten &amp; Kedekatan</div>
+        <h2 style="font-size:1.9rem;color:var(--teal);font-weight:600;">Website ini bukan cuma toko, tapi dapur inspirasi.</h2>
+        <p style="margin-top:14px;color:var(--ink-soft);line-height:1.6;">Selain katalog dan pemesanan, website memuat konten yang dekat dengan keseharian mahasiswa dan anak kos.</p>
+        <div class="content-tags">
+          <span class="tag">Video resep sederhana</span>
+          <span class="tag">Ide masakan anak kos</span>
+          <span class="tag">Cara mengolah fillet</span>
+          <span class="tag">Proses pengemasan</span>
+          <span class="tag">Tips menyimpan ikan</span>
+          <span class="tag">Fillet vs ikan utuh</span>
+        </div>
+      </div>
+      <div>
+        <div class="kicker">Promo Berjalan</div>
+        <h2 style="font-size:1.9rem;color:var(--teal);font-weight:600;">Diskon dan bundling buat yang baru coba.</h2>
+        <ul class="promo-list">
+          <li>🎁 <span><strong>Diskon pembelian pertama</strong> — potongan harga untuk pesanan perdana.</span></li>
+          <li>📦 <span><strong>Paket bundling</strong> — campur jenis ikan, lebih hemat per kemasan.</span></li>
+          <li>🛵 <span><strong>Promo ongkir</strong> — gratis ongkir area kampus dan sekitar kos.</span></li>
+          <li>📸 <span><strong>Giveaway &amp; konten pembeli</strong> — posting hasil masakanmu, menang paket fillet.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <h2>Siap masak tanpa drama duri?</h2>
+          <p>Pesan fillet segar hari ini, sampai di kos sebelum jam makan.</p>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a class="btn" style="background:#FFF3EA;color:var(--coral-deep);" href="#menu">Lihat Menu</a>
+          <a class="btn btn-line" href="#pesan">Cara Pesan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="logo">FILLEAT<span class="dot">.</span></div>
+      <div>Ikan fillet vakum, praktis untuk dapur padat aktivitas.</div>
+    </div>
+    <div>
+      <div>Program Studi Perikanan Tangkap</div>
+      <div>Fakultas Perikanan dan Ilmu Kelautan, Universitas Diponegoro</div>
+    </div>
+    <div>
+      <div>Hubungi kami</div>
+      <div>filleat07@gmail.com · 0899-2300-105</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
